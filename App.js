@@ -1,6 +1,6 @@
 import React,{useEffect, useState} from 'react'
-import { View, Text, FlatList } from 'react-native'
-
+import { View, Text, FlatList, StyleSheet, TextInput, StatusBar } from 'react-native'
+import CoinItem from './components/CoinItem'
 const App = () => {
   const [coins, setcoins] = useState([])
   const loadData=async ()=>{
@@ -11,17 +11,54 @@ const App = () => {
   useEffect(()=>{
     loadData();
   },[])
+
   return (
-    <View>
-      <FlatList
+    <View style={styles.container}>
+      <StatusBar
+      backgroundColor="#141414"
+      />
+      <View style={styles.header}>
+        <Text style={styles.title}>CryptoMarket</Text>
+        <TextInput style={styles.searchInput}/>
+      </View>
+      <FlatList 
+        style={styles.list}
         data={coins}
         renderItem={({item})=>{
-          console.log(item);
-          return <Text>{item.name}</Text>
+          return <CoinItem coin={item}/>
         }}
+        showsVerticalScrollIndicator={false}
       />
     </View>
   )
 }
+const styles = StyleSheet.create({
+  container:{
+    backgroundColor:'#141414',
+    alignItems:'center',
+    flex: 1,
+  },
+  title:{
+    color:'#fff',
+    margin: 10,
+    fontSize:20,
+  },
+  list:{
+    width: '90%',
+
+  },
+  header:{
+    flexDirection:'row',
+    justifyContent:'space-between',
+    width: '90%',
+  },
+  searchInput:{
+    color: '#fff',
+    borderBottomColor:'#4657CE',
+    borderBottomWidth:1,
+    textAlign:'center',
+    with:'40%'
+  }
+})
 
 export default App
