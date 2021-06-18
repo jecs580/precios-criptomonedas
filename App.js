@@ -51,6 +51,7 @@ const styles = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     width: '90%',
+    marginBottom:10,
   },
   searchInput:{
     color: '#fff',
