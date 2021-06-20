@@ -4,6 +4,7 @@ import CoinItem from './components/CoinItem'
 const App = () => {
   const [coins, setcoins] = useState([])
   const [search, setSearch] = useState('')
+  const [refreshing, setRefreshing] = useState(false)
   const loadData=async ()=>{
     const res = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false")
     const data = await res.json();
@@ -26,7 +27,7 @@ const App = () => {
           onChangeText={text=>setSearch(text)}
         />
       </View>
-      <FlatList 
+      <FlatList
         style={styles.list}
         data={
           coins.filter(coin=>
@@ -37,6 +38,13 @@ const App = () => {
           return <CoinItem coin={item}/>
         }}
         showsVerticalScrollIndicator={false}
+        refreshing={refreshing}
+        onRefresh={async ()=>{
+          setRefreshing(true);
+          await loadData();
+          console.log('refreshing');
+          setRefreshing(false)
+        }}
       />
     </View>
   )
@@ -67,7 +75,7 @@ const styles = StyleSheet.create({
     borderBottomColor:'#4657CE',
     borderBottomWidth:1,
     textAlign:'center',
-    with:'40%'
+    width:'40%',
   }
 })
 
